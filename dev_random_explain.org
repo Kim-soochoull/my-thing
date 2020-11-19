@@ -165,9 +165,9 @@
 
      다음의 코드를 테스트 해보기 바란다.
 
-     #include <time.h>
-     #include <stdio.h>
-     #include <sys/types.h>
+     =#include <time.h>=
+     ~#include <stdio.h>~
+     =#include <sys/types.h>=
      #include <unistd.h>
      #include <fcntl.h>
 
