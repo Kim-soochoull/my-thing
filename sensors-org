@@ -1,0 +1,8 @@
+* Sensors 유틸
+** 설치
+   $ sudo apt-get install lm-sensors
+** 설치후
+   $ sensors-detect
+   $ service module-init-tools restart
+** 온도 확인 명령어 
+   $ sensors
