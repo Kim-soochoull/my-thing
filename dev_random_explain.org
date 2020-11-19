@@ -45,12 +45,12 @@
      다음은 테스트를 위한 코드이다.
      
      예제 : random_test.c
-            #include <stdlib.h>
-            #include <string.h>
-            #include <stdio.h>
-            #include <math.h>
+            =#include <stdlib.h>= //
+            =#include <string.h>= //
+            =#include <stdio.h>= //
+            =#include <math.h>= //
 
-               struct mdata
+               =struct mdata= //
                {
                   int count;
                 };
