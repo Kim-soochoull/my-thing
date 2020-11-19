@@ -114,6 +114,7 @@
     실제 openssl 과 같은 라이브러리 등은 암호화된 key 를 만들기 위해 '/dev/random' 를 쓴다. 다음의 128bit 크기의 난수를 만드는 짧은 본보기(예제) 프로그램이다.
 
     ;; dev_mem.c
+    #+BEGIN_SRC cpp
     #include <unistd.h>
     #include <fcntl.h>
     #include <sys/stat.h>
@@ -143,6 +144,7 @@
               printf("%c", key[i]);
            }
        }
+       #+END_SRC
 
        위의 코드는 16 * 8(128)bit 크기를 가지는 랜덤값을 만들어낸다. 위프로그램을 실행시킨 결과값을 확인하기 좋게 만들기 위해서 mimecode 를 통해서 아래와 같이 출력해보았다.
 
@@ -159,9 +161,10 @@
 
      다음의 코드를 테스트 해보기 바란다.
 
-     =#include <time.h>=
-     ~#include <stdio.h>~
-     =#include <sys/types.h>=
+     #+BEGIN_SRC cpp
+     #include <time.h>
+     #include <stdio.h>
+     #include <sys/types.h>
      #include <unistd.h>
      #include <fcntl.h>
 
@@ -209,6 +212,7 @@
        random_clear(fd);
 
        }
+       #+END_SRC
 
        당신의 시스템이 조용한 상태라고 가정한다면 처음 몇 개는 발생하지만 그 후에는 띄엄띄엄 발생 하는 것을 확인할 수 있을 것이다. 자 이제 키보드를 눌러 보거나. 마우스를 움직여 보거나 복사와 같은 파일 관련 작업을 해보기 바란다. 아마 랜덤값이 빠르게 발생하는 걸 확인 할 수 있을 것이다.
 
