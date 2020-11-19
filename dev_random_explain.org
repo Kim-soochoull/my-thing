@@ -45,6 +45,7 @@
      다음은 테스트를 위한 코드이다.
      
      예제 : random_test.c
+     
             =#include <stdlib.h>=
             
             =#include <string.h>=
@@ -53,17 +54,17 @@
             
             =#include <math.h>= 
 
-               =struct mdata=
+            =struct mdata=
                
-               ={=
+            ={=
                
-                  =int count;=
+                 =int count;=
                   
-                =};=
+              =};= 
 
-               int main()
-               {
-                 int i = 0;
+            =int main()=
+               ={=\\
+                 ==int i = 0;=\\
                  struct mdata mydata[101];
                  int sum = 0;
                  int avg = 0;
@@ -117,6 +118,7 @@
          마지막 출력값인 1303 에 sqrt 연산을 해주면 표준편차를 구할수 있다.
 
 *** 2-3. /dev/random 의 이용.
+    
     Unix 에서는 좀더 범용적으로 사용할 수 있는 방법을 제공한다. '/dev/random' 이라는 문자장치를 통한 랜덤값 가져오기가 그 방법이다.
 
     이 문자장치는 커널에서 제공하는데, int형의 값을 이용해서 random seed 를 생성해내는 random 함수와는 달리 다른 장치 드라이버와 엔트로피 풀안의 다른 소스들로부터 노이즈를 모으고 이런 노이즈와 장치드라이버에 걸리는 인터럽트시간 간격등을 이용해서 난수를 만든다.
