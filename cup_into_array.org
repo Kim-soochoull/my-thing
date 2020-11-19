@@ -1,0 +1,163 @@
+
+* CPU Interrupts
+** NMI
+*** Non maskable interrupt
+    interrupt mask에 영향을 받지 않는 가장 우선 순위가 높은 인터럽트.
+    하드웨어 인터럽트의 일종으로 소프트웨어나 키도브 등 하드웨어 장치에 의해서 생성되는 인터럽트 요구를 우회하고 그것들보다 우선 순위를 갖기 때문에 마스크스 불가능 인터럽트라 부른다. 심각한 기억장치 오류나 정전사태와 같은 급박한 상황에서만 마스크 불가능 인터럽트 요구가 마이크로프로세서에 전달된다.
+** LOC
+*** 다중 CPU 스레딩을 관리하는 프로세스
+    기본적으로 시스템이 인터럽트를 마스킹 처리하는 방식은 cpu가 더 많은 스레드 스트림이나 메모리를 공급해야 하기 때문에 발생하는 인터럽트 마스킹 방식을 쓴다. 즉, 값이 높을 수록 시스템 스레딩이 더 잘 이루어 지며 이는 좋은 일이다. 하지만 너무 높으면 낮추어 주기도 한다.
+    [alexonlinux.com/smp-affinity-and-proper-interrupt-handling-in-linux]
+** SPU
+*** spurious interrupt
+    A Spurious interrupt occurs when the ARM Core is interrupted and the source of interrupt has disappeared when AIC_IVR is read
+    
+    This occurs:
+    By applying a pulse on an external interrupt signal programmed as level sensitive.
+    By disabling an interrupt just at the time it happens (Pipelining side
+    effect of the processor).
+    By hand checking an interrupt with PDC and Holding Register interrupt
+    management. (The PDC read and write by hardware request)
+**** ARM Core
+     Advanced RISC Machine의 약자로 고성능 MPU와 더불어 다양한 병렬 제어 유닛과 통신 인터페이스를 갖추고 있다. 
+** PMI
+*** Performance monitering interrupts
+    performance monitering interrupt based on PUM in uncore.
+**** Performance Monitering Unit PMU
+     Most processors nowadays have special, on-chip hardware that monitors micro architectural events like elapsed cycles, cache hits, cache miss etc.
+     It is subsystem which helps in analyzing how an application or operating systmes are performing on the processor. 
+***** Perfomance Monitoring Events
+      The Performance Monitoring Events can be broadly categorized in two types.
+****** Hardware
+       CPU-Cycles, Instructions, Cache References
+****** Software
+       Page Fault, Context Switch, etc
+** IWI
+*** IRQ work interrupts
+**** IRQ Interrupt Request
+     PC 내부의 어떤 장치가 시스템에 자기가 system의 어떤 부분을 사용하기 위해 System을콜을 하는 것이다. 따라서 일반적으로 PC시스템 내부의 장치는 각각 하나의 고유 IRQ를갖는다. 어떤 장치가 몇 번 IRQ를 사용해야 하는지는 규정되어 있기도 하고, 그렇지 않은 경우도 있다. 규정이 되어 있지 않은 장치들에 대해서는 보통 처음 컴에 전원을 넣고 부팅을 하기전 과정에서 바이오스가 자동적으로 특정 IRQ로 세팅을 해주는 경우도 있고, 부팅후 O/S가 비어있는 IRQ를 특정장치에 할당해주는 경우도 있다. 주도 그 장치의 driver에 세팅이 되어 있는 경우가 많다. 따라서 IRQ를 사용자가 직접 지정을 하는 경우 대부분 그 장치가 동작을 하지 않는 경우가 많다. 이미 그 IRQ가 다른 장치에 할당이 되어 있는 경우이거나, 장치의 드라이버에 세팅 되어있는 IRQ가 아닌 IRQ를 사용자가 강제 지정하기 때문이다. IRQ가 충돌한다고 PC가 느려지지는 않는다. 다만 그 장치가 동작을 안할 뿐이다. 일반적으로 요즘에 설계되는 컴들은 몇몇 장치들이 IRQ를 공유해서 쓰기도 한다. 그만큼 장치의 종류는 많아졌는데 컴에 할당되어질 수 있는 IRQ 수는 제한적이기 때문이다. 이렇게 IRQ를 공유해서 쓴다해도 컴에 문제가 생기거나 장치가 동작을 안 하지는 않는다. IRQ를 공유하는 장치들은 기본적으로 그 장치들이 동시에 system에 IRQ를 날릴 일이 없는 장치들이기 때문이다.
+***** IRQ 0
+      시스템의 타이머는 TIMER-0 에서 인터럽트 된다. 사용자가 정할 수 없는 옵션.
+***** IRQ 1
+      키보드.
+***** IRQ 2
+      IRQ 8-15 에 대한 종속 IRQ. 번호가 높은 IRQ의 오버랩 IRQ와 같은 역할을 한다. 종종 IRQ 9에 연결되는데, 예를 들면 SCSI 컨트롤러는 IRQ2와 IRQ9에 동시에 세팅되는 것을 들 수 있다. 
+***** IRQ3
+      이 IRQ는 COM2/COM4에 이용된다. 일반적으로 모뎀은 IRQ 3에서 작동이 잘된다. 만약 두 가지 장치가 IRQ는 같지만, 다른 COM 포트를 가진다면 같은 IRQ를 나누어서 사용하는 것도 가능하다. 두 가지 장치 모드를 동작 시키려고만 하지 않는다면, IRQ 충돌도 걱정할 필요가 없다. 그래서 자주 사용되는 마우스의 IRQ는 나누어서 사용하면 안된다는 것을 알 수 있다. 
+***** IRQ 4
+      주로 COM1/COM3에 이용되고, 표준 시리얼 마우스 연결에 사용된다. 위에서도 말했듯이 마우스를 사용하는 이 IRQ를 나누어서 쓰는 것은 좋은 생각이 아니다.
+***** IRQ 5
+      일반적으로 두번째 프린더 (LPT2) 포트에 사용된다. 뿐만 아니라 사운드 블래스터 시리즈를 비롯한 많은 사운드 카드들이 기본으로 사용하고 있다. 만약 낮은 번호의 IRQ를 사용하는 네트워크 카드가 있다면, 보통 5번을 사용한다. 
+***** IRQ 6
+      플로피 드라이브 컨트롤러. 사용자가 정할 수 없는 옵션이다.
+***** IRQ 7
+      첫번째 패러럴 포트(LPT1)이다. 이 IRQ 7은 패러럴 외의 다른 용도로 세팅하는 것은 좋지 않다.
+***** IRQ 8
+      Real Time Clock. 사용자가 정할 수 없는 옵션.
+***** IRQ 9
+      IRQ 2와 겹친다. SCSI 호스트 어댑터, 네트워크 카드나 IRQ 5를 사용할 수 없는 사운드 카드에게 적당한 IRQ이다. SCSI 카드들은 IRQ 9이나 11 중 하나를 사용한다.
+***** IRQ 10
+      대부분의 장치들이 사용할 수 없는 IRQ 이므로 네트워크 카드가 사용하기에 알맞은 IRQ 이다. 
+***** IRQ 11
+      SCSI 컨트롤러가 선택할 수 있는 두 분째 IRQ 이다.
+***** IRQ 12
+      10번이나 11번과 비슷하다. 주로 버스 마우스가 사용한다.
+***** IRQ 13
+      수학용 보조 프로세서. 사용자가 정할 수 없는 옵션이다.
+***** IRQ 14
+      IDE 하드 디스크 컨트롤러. 각각의 IDE 채널들은 각자의 IRQ를 요구한다. 한 개의 IRQ 로 2개의 IDE 장치를 컨트롤 할 수 있다.
+***** IRQ 15
+      두 번째 IDE채널. 세컨드리를 IDE를 사용하지 않으면 다른 곳에 사용할 수 있다.
+** RTR
+*** APIC ICR read retries
+**** APIC: Advanced Programmable Interrupt Controller
+     Short for Advanced Programmable Interrupt Controller, APIC is a PIC (programmable interrupt controller) with advanced interrupt management. It was first developed by Intel and replaces the 8259 interrupt controllers. APIC is necessary for dual processing or multiple-processor support and has been available since the original Intel Pentium.
+     However, the motherboard chipset, BIOS, and operating system (Windows 2000 and later) must also support APIC before it can be used.
+     Although APIC adds support for multiple processors, it is still used with single-processor computers since it provides support for virtual PCI IRQs above 15. Windows XP is one of the first versions of Windows that takes full advantage of APIC if enabled and assigns more devices to IRQs above 15. 
+**** ICR: Interrupt control register
+     An interrupt control register, or ICR, is a hardware register in a computer chip used to configure the chip to generate interrupts—to raise a signal on an interrupt line—in response to some event occurring within the chip or a circuit connected to the chip.
+     An Interrupt Control is usually used in Micro controllers to generate interrupts signals which tells the CPU to pause its current task and start executing another set of predefined activities.
+** RES : Rescheduling interrupts
+*** intro
+     An interrupt control register, or ICR, is a hardware register in a computer chip used to configure the chip to generate interrupts—to raise a signal on an interrupt line—in response to some event occurring within the chip or a circuit connected to the chip.
+     An Interrupt Control is usually used in Micro controllers to generate interrupts signals which tells the CPU to pause its current task and start executing another set of predefined activities.
+*** What are Rescheduling interrupts?
+    With multi core machines, such as Intel Centrino Duos, the scheduler tries to spread processor activity across as many cores as possible. The general rule of thumb is that it is preferable to have as many processes running on all the cores in lower power (lower clock frequencies) rather than have one core really busy running at full speed while other cores are sleeping.
+    When the scheduler decides to offload work from one core to another sleeping core, a kernel IPI "message" is sent to a sleeping core to wake it up from a low power sleep to make it start running a process. These IPI events are reported by powertop as "Rescheduling Interrupts". The information is available by reading /proc/interrupts - the IPI events are reported as an interrupt.
+    Generally speaking wakeup events are caused by timer wakeups or interrupts from hardware and these causes processes to be woken up and get scheduled to run. The scheduler will generate IPIs when it deems it necessary to put these woken up processed onto a sleeping core, hence a system with lots of wakeups or interrupts may manifest many "Rescheduling Interrupts".
+    If powertop is reporting many hundreds or possibly thousands of "Rescheduling Interrupts" then there probably is a problem with a BIOS setting (misconfigured interrupt setup) or a misbehaving application (generating lots of wakeup from timer in threads).
+** CAL: Function call interrupts
+   Some implementations of Linux, on some processors, use instructions that trigger software-interrupts to implement system calls. Whether or not your system does so depends on the CPU-type.
+** TLB
+*** Translation Lookaside Buffer
+    A TLB (Translation Lookaside Buffer) is a cache of the translations from virtual memory addresses to physical memory addresses. When a processor changes the virtual-to-physical mapping of an address, it needs to tell the other processors to invalidate that mapping in their caches.
+    That process is called a "TLB shootdown".
+** TRM
+*** Thermal event interrupts
+    온도 확인을 위해 'sensors' 유틸을 설치하고 확인한다.
+** THR
+*** Threshold APIC interrupts
+**** APIC : Advanced Programmable Interrupt Controller
+     The advanced programmable interrupt controller (APIC) was developed by Intel® to provide the ability to handle large amounts of interrupts, to allow each of these to be programmatically routed to a specific set of available CPUs (and for this to be changed accordingly), to support inter-CPU communication, and to remove the need for a large number of devices to share a single interrupt line.
+     APIC represents a series of devices and technologies that work together to generate, route, and handle a large number of hardware interrupts in a scalable and manageable way. It uses a combination of a local APIC built into each system CPU, and a number of Input/Outpt APICs that are connected directly to hardware devices. When a hardware device generates an interrupt, it is detected by the IO-APIC it is connected to, and then routed across the system APIC bus to a particular CPU. The operating system knows which IO-APIC is connected to which device, and to which particular interrupt line within that device because of a combination of information sources. Firstly, there is the ACPI DSDT (Advanced Configuration and Power Interface Differentiated System Description Table) that includes information about the specific wiring of the host system motherboard and peripheral components. Secondly, a device provides certain information about its available interrupt sources. Together, these two sets of data provide information about the overall interrupt hierarchy.
+** DFR : Deferred Error APIC interrupts
+** MCE : Machine check exceptions
+   A machine check exception is an error detected by your system’s processor. There are 2 major types of MCE errors, a notice or warning error, and a fatal exception. The warning will be logged by a “Machine Check Event logged” notice in your system logs, and can be later viewed via some Linux utilities. A fatal MCE will cause the machine to stop responding and the details of the MCE will be printed out to the system’s console.
+*** MCE errors.
+    There most common reason for MCE events to occur are:
+    - Memory errors or Error Correction Code (ECC) problems
+    - Inadequate cooling / processor over-heating
+    - System bus errors
+    - Cache errors in the processor or hardware
+    
+** MCP : Machine check polls
+*** Machine check
+    Configurable sysfs parameters for the x86-64 machine check code.
+
+    Machine checks report internal hardware error conditions detected
+by the CPU. Uncorrected errors typically cause a machine check
+(often with panic), corrected ones cause a machine check log entry.
+
+    Machine checks are organized in banks (normally associated with
+a hardware subsystem) and subevents in a bank. The exact meaning
+of the banks and subevent is CPU specific.
+
+    mcelog knows how to decode them.
+
+    When you see the "Machine check errors logged" message in the system
+log then mcelog should run to collect and decode machine check entries
+from /dev/mcelog. Normally mcelog should be run regularly from a cronjob.
+
+    Each CPU has a directory in /sys/devices/system/machinecheck/machinecheckN
+(N = CPU number)
+*** The directory contains some configurable entries :
+**** bankNctl: N bank number
+     64bit Hex bitmask enabling/disabling specific subevents for bank N
+     When a bit in the bitmask is zero then the respective subevent will not be reported.
+     By default all events are enabled.
+     Note that BIOS maintain another mask to disable specific events per bank. This is not visible here
+     The following entries appear for each CPU, but they are truly shared between all CPUs.
+**** check_interval
+     Tolerance level. When a machine check exception occurs for a non corrected machine check the kernel can take different actions.
+     Since machine check exceptions can happen any time it is sometimes risky for the kernel to kill a process because it defie normal kernel locking rules. The tolerance level configures how hard the kernel tries to recover even at some risk of deadlock.  Higher tolerant values trade potentially better uptime with the risk of a crash or even corruption (for tolerant >= 3).
+     0: always panic on uncorrected errors, log corrected errors
+     1: panic or SIGBUS on uncorrected errors, log corrected errors
+     2: SIGBUS or log uncorrected errors, log corrected errors
+     3: never panic or SIGBUS, log all errors (for testing only)
+
+     Default: 1
+     Note this only makes a difference if the CPU allows recovery from a machine check exception. Current x86 CPUs generally do not.
+**** trigger
+     Program to run when a machine check event is detected.
+     This is an alternative to running mcelog regularly from cron and allows to detect events faster.
+**** monarch_timeout
+     How long to wait for the other CPUs to machine check too on a exception. 0 to disable waiting for other CPUs.
+
+     Unit: us
+
+** ERR
+** MIS
+** PIN
+** NPI
+** PIW
+
