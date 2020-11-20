@@ -260,7 +260,7 @@ My GIT_MANUAL -*- mode: org -*-
       적용된다.
 
    각 설정은 역순으로 우선시 된다. 그래서 ~.git/config~ 가 ~/etc/gitconfig~ 보다
-   우선한다.
+   우선한다
 
    ~/etc/gitconfig~ 시스템 설정 파일의 경로는 ~git config -f <file>~ 명령으로
    변경할 수 있다.
@@ -277,4 +277,5 @@ My GIT_MANUAL -*- mode: org -*-
     $ git config --global user.email johndoe@example.com
     #+END_SRC
 
+    다시 말하자면 ~--global~ 옵션으로 설정하는 것은 딱 한번만 하면 된다. 
     
