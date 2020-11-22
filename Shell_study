@@ -247,7 +247,52 @@ SHELL_STUDY -*-mode: org-*-
      Some distributions enable default aliases to protect users from
      accidentally erasing files('rm -i', 'mv -i', 'co -i')
 
-     
-     
+**** 1.7.4 Viewing aliases
+
+     You can provide one or more aliases as arguments to the *alias* command to
+     get their definition. Providing no arguments gives a complete list of
+     current aliases.
+
+     #+BEGIN_SRC sh
+     $ alias c ll
+     alias c='clear'
+     alias ll='ls -lh --color=auto'
+     #+END_SRC
 
      
+**** 1.7.5 Unalias
+
+     You can undo an alias with the
+     *unalias* command.
+     
+     #+BEGIN_SRC sh
+     $ which rm
+     /bin/rm
+
+     $ alias rm='rm -i'
+     $ which rm
+     alias rm='rm -i'
+           /bin/rm
+
+    $ unalias rm
+    $which rm
+    /bin/rm
+    #+END_SRC
+
+    
+*** 1.8 Displaying shell expansion
+
+    You can display shell expansion with *set -x* , and stop displaying it with
+    *set +x* . You might want to use this further on in this course, or when in
+    doubt about exactly what the shell is doing with your command.
+
+    #+BEGIN_SRC sh
+    $ set -x
+    ++ echo -ne '\033]0;soo@zoring:~\007'
+
+    $ echo $USER
+    +echo soo
+    soo
+    ++ echo -ne '\033]0;soo@zorin:~\007'
+
+    
