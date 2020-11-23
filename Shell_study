@@ -8,12 +8,12 @@ SHELL_STUDY -*-mode: org-*-
    system are processed and most likely changed by the *shell* before they are
    executed.
 
-   The command line interface or *shell* used on most Linux systems is called
-   *bash* , which stands for *Bourne again shell* .
+   The command line interface or *shell* used on most Linux systems is calledn
+   *bash*  , which stands for *Bourne again shell* .
 
    This chapter frequently uses the *echo* command to demonstrate shell
    features. The *echo* command is very simple; it echoes the input that it
-   receives.
+   receives. 
 
    #+BEGIN_SRC sh
    $ echo Burtonville
@@ -295,4 +295,62 @@ SHELL_STUDY -*-mode: org-*-
     soo
     ++ echo -ne '\033]0;soo@zorin:~\007'
 
-    
+    $ echo \$USER
+    + echo '$USER'
+    $USER
+    ++ echo -ne '\033]0;soo@zorin:~\007'
+
+    $ set +x
+    + set +x
+
+    $ echo $USER
+    soo
+
+    #+END_SRC
+
+  
+*** 1.9 연습문제
+
+    + How many *arguments* are in this line (not counting the command itself).
+      #+BEGIN_SRC sh
+      $ touch '/etc/cron/cron.allos' 'file 42.txt' "file 33.txt"
+      #+END_SRC
+
+      sol: three
+
+    + Is *tac* a shell builtin command?
+
+      sol:
+      #+BEGIN_SRC sh
+      $ type tac
+      #+END_SRC
+
+    + Is there an existing alias for *rm* ?
+      sol:
+      #+BEGIN_SRC sh
+      $ alias rm
+      #+END_SRC
+
+    + Read the man page of *rm* , make sure you understand the *-i* option of
+      rm. Create  and remove a file to test the *-i* option.
+      sol:
+      #+BEGIN_SRC sh
+      $ man rm
+      $ touch testfile
+      $ rm -i testfile
+      #+END_SRC
+
+    + Execute: *alias rm='rm -i'* . Test your alias with a test file. Does this
+      work as expected?
+      sol:
+      #+BEGIN_SRC sh
+      $ touch tesfile
+      $ rm testfile (should ask for confirmation)
+      #+END_SRC
+
+    + List all current aliases.
+      sol:
+      #+BEGIN_SRC sh
+      $ alias
+      #+END_SRC
+      
