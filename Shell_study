@@ -353,4 +353,23 @@ SHELL_STUDY -*-mode: org-*-
       #+BEGIN_SRC sh
       $ alias
       #+END_SRC
-      
+
+    + Creat an alias called 'city' that echoes your hometown
+      sol:
+      #+BEGIN_SRC sh
+      $ alias city='echo Seoul'
+      #+END_SRC
+
+    + Use your alias to test that it works.
+      sol:
+      #+BEGIN_SRC sh
+      $ city
+      #+END_SRC
+
+    + Execute *set -x* to display shell expansion for every command.
+      sol:
+      #+BEGIN_SRC sh
+      $ set -x
+      #+END_SRC
+
+    + 
