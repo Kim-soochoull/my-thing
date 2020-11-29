@@ -372,4 +372,15 @@ SHELL_STUDY -*-mode: org-*-
       $ set -x
       #+END_SRC
 
+    + Test the functionality of *set -x* by executing your *city* and *rm* aliases.
+      sol:
+      #+BEGIN_SRC sh
+      shell should display the resolved aliases and then execute the command:
+      $ set -x
+      $ city
+      echo antwerp
+      antwerp
+      #+END_SRC
+
     + 
+     
